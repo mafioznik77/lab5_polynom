@@ -4,7 +4,7 @@
 using namespace std;
 
 template <class T>
-
+//asd
 class TLink
 {
 public:
