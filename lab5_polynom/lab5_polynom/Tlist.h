@@ -28,6 +28,18 @@ public:
 		pFirst = pCurr = pLast = pPrev = NULL;
 		pos = -1;
 		size = 0;
+	}	
+
+	~THeadList()
+	{
+		pCurr = pFirst;
+		while (pCurr != pHead)
+		{
+			pPrev = pCurr;
+			pCurr = pCurr->pNext;
+			delete pPrev;
+		}
+		delete pHead;
 	}
 
 
@@ -52,6 +64,19 @@ public:
 		}
 	}
 
+	void DelFirst()
+	{
+		if (size != 0)
+		{
+			pHead->pNext = pFirst->pNext;
+			delete pFirst;
+			pFirst = pHead->pNext;
+			size--;
+			pos--;
+		}
+	}
+
+
 	void InsCurr(const T elem)
 	{
 		TLink<T>*tmp = new TLink<T>;
@@ -74,5 +99,22 @@ public:
 		}
 	}
 
+	void Reset()
+	{
+		pCurr = pFirst;
+		pPrev = pHead;
+		pos = 0;
+	}
 
+	void GoNext()
+	{
+		pPrev = pCurr;
+		pCurr = pCurr->pNext;
+		pos++;
+	}
+
+	bool IsEnd()
+	{
+		return pCurr == pHead;
+	}
 };
