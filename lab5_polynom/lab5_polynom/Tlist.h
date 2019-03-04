@@ -126,7 +126,7 @@ public:
 		else
 		{
 			TLink<T> *tmp = new TLink<T>;
-			tmp->value = elem;
+			tmp->val = elem;
 			tmp->pNext = pHead;
 			pLast->pNext = tmp;
 			pLast = tmp;
