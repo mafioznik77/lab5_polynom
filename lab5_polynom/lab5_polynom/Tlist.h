@@ -117,4 +117,20 @@ public:
 	{
 		return pCurr == pHead;
 	}
+
+	void InsLast(const T elem)
+	{
+		if (size == 0) {
+			InsFirst(elem);
+		}
+		else
+		{
+			TLink<T> *tmp = new TLink<T>;
+			tmp->value = elem;
+			tmp->pNext = pHead;
+			pLast->pNext = tmp;
+			pLast = tmp;
+			size++;
+		}
+	}
 };
