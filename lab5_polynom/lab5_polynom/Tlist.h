@@ -1,136 +1,205 @@
 #pragma once
 #include <iostream>
-
 using namespace std;
 
 template <class T>
-//asd
-class TLink
-{
-public:
+struct TLink {
 	T val;
 	TLink *pNext;
 };
 
 template <class T>
-class THeadList
-{
-protected:
-	TLink<T> *pHead, *pFirst, *pPrev, *pCurr, *pLast;
-	int pos, size;
+class THeadList {
 public:
+	int pos, size;
+	TLink<T> *pHead, *pFirst;
+public:
+	void InsFirst(const T elem);
+	void  InsCurr(const T elem);
+	void DelCurr();
+	void InsElem(const T elem);
+	void PrintList();
+	void InsLast(const T elem);
+	THeadList();
+	~THeadList();
+	TLink<T>  *pPrev, *pCurr, *pLast;
+	void Reset();
+	void GoNext();
+	bool IsEnd();
+	T GetCurr();
+};
 
-	THeadList() 
-	{
-		TLink<T>*tmp = new TLink<T>;
-		pHead = tmp;
-		pHead->pNext = pHead;
-		pFirst = pCurr = pLast = pPrev = NULL;
-		pos = -1;
-		size = 0;
-	}	
+template <class T>
+THeadList<T>::THeadList() {
+	pHead = new TLink<T>;
+	pHead->pNext = pHead;
+	pFirst = pCurr = pPrev = pLast = pHead;
+	size = 0;
+	pos = -1;
+}
 
-	~THeadList()
+template <class T>
+void THeadList<T>::InsFirst(const T elem) {
+	TLink<T> *tmp = new TLink<T>;
+	tmp->val = elem;
+	if (size > 0)
 	{
+		pHead->pNext = tmp;
+		tmp->pNext = pFirst;
+		if (size == 1)pLast = tmp->pNext;
+		pFirst = tmp;
+		size++;
+		pos++;
+	}
+	else
+	{
+		pHead->pNext = tmp;
+		tmp->pNext = pHead;
+		pFirst = tmp;
+		pLast = tmp;
+		pLast->pNext = pHead;
+		size++;
+		pos = 0;
 		pCurr = pFirst;
-		while (pCurr != pHead)
-		{
-			pPrev = pCurr;
-			pCurr = pCurr->pNext;
-			delete pPrev;
-		}
-		delete pHead;
 	}
+}
 
-
-	void InsFirst(const T elem) 
+template <class T>
+void THeadList<T>::InsCurr(const T elem) {
+	TLink <T> *tmp = new TLink <T>;
+	tmp->val = elem;
+	if (pos == 0 && pPrev == pHead)
 	{
-		TLink<T>*tmp = new TLink<T>;
-		tmp->val = elem;
-		if (size > 0)
+		pFirst = tmp;
+	}
+	pPrev->pNext = tmp;
+	tmp->pNext = pCurr;
+	if (pCurr == pHead)
+	{
+		pLast = tmp;
+	}
+	pCurr = tmp;
+	if (size == 0)
+	{
+		pos = 0;
+		pLast = tmp;
+		pLast->pNext = pHead;
+		pFirst = tmp;
+	}
+	size++;
+}
+
+template <class T>
+void THeadList<T>::DelCurr() {
+	if (pCurr != pHead && size > 0)
+	{
+		TLink<T> *tmp = pCurr;
+		pPrev->pNext = tmp->pNext;
+		delete tmp;
+		pCurr = pPrev->pNext;
+		size--;
+		if (size == 0)
 		{
-			pHead->pNext = tmp;
-			tmp->pNext = pFirst;
-			pFirst = tmp;
-			size++; pos++;
-		}
-		else
-		{
-			pHead->pNext = tmp;
-			tmp->pNext = pHead;
-			pFirst = tmp;
-			size++; pos = 0;
-			pCurr = pFirst;
+			pFirst = pLast = pPrev = pCurr = pHead;
+			pos = -1;
 		}
 	}
+}
 
-	void DelFirst()
+template <class T>
+void THeadList<T>::InsElem(const T elem) {
+	TLink<T> *tmp = new TLink<T>;
+	tmp->val = elem;
+	if (pHead->pNext == pHead)
 	{
-		if (size != 0)
-		{
-			pHead->pNext = pFirst->pNext;
-			delete pFirst;
-			pFirst = pHead->pNext;
-			size--;
-			pos--;
-		}
-	}
-
-
-	void InsCurr(const T elem)
-	{
-		TLink<T>*tmp = new TLink<T>;
-		tmp->val = elem;
-		pPrev->pNext = tmp;
-		tmp->pNext = pCurr;
-		pCurr = tmp;
+		pFirst = tmp;
+		pLast = tmp;
+		pHead->pNext = pFirst;
+		pFirst->pNext = pHead;
+		pLast = pFirst;
+		pCurr = pFirst;
+		pos = 0;
 		size++;
 	}
-
-	void DelCurr()
+	else if (pFirst == pLast)
 	{
-		if (pCurr != pHead && size > 0)
-		{
-			TLink<T>*tmp = pCurr;
-			pPrev->pNext = pCurr->pNext;
-			delete tmp;
-			pCurr = pPrev->pNext;
-			size--;
-		}
+		pLast = tmp;
+		pFirst->pNext = pLast;
+		pLast->pNext = pHead;
+		size++;
 	}
-
-	void Reset()
+	else
 	{
-		pCurr = pFirst;
-		pPrev = pHead;
-		pos = 0;
+		pLast->pNext = tmp;
+		pLast = tmp;
+		tmp->pNext = pHead;
 	}
+}
 
-	void GoNext()
+template <class T>
+void THeadList<T>::PrintList() {
+	TLink<T> *tmp = pFirst;
+	while (tmp != pHead)
+	{
+		std::cout << tmp->val << std::endl;
+		tmp = tmp->pNext;
+	}
+	std::cout << std::endl;
+}
+
+template <class T>
+void THeadList<T>::Reset()
+{
+	if (size == 0)
+		throw - 1;
+	pCurr = pFirst;
+	pPrev = pHead;
+	pos = 0;
+}
+
+template <class T>
+void THeadList<T>::GoNext() {
+	if (pCurr != pHead)
 	{
 		pPrev = pCurr;
 		pCurr = pCurr->pNext;
 		pos++;
 	}
+	else
+		throw (-1);
+}
 
-	bool IsEnd()
-	{
-		return pCurr == pHead;
-	}
+template <class T>
+bool THeadList<T>::IsEnd() {
+	return(pCurr == pHead);
+}
 
-	void InsLast(const T elem)
+template <class T>
+T THeadList<T>::GetCurr() {
+	if (pCurr != pHead)
+		return pCurr->val;
+	else
+		throw (-1);
+}
+
+template <class T>
+THeadList<T>::~THeadList() {
+	pCurr = pFirst;
+	while (pCurr != pHead)
 	{
-		if (size == 0) {
-			InsFirst(elem);
-		}
-		else
-		{
-			TLink<T> *tmp = new TLink<T>;
-			tmp->val = elem;
-			tmp->pNext = pHead;
-			pLast->pNext = tmp;
-			pLast = tmp;
-			size++;
-		}
+		pPrev = pCurr;
+		pCurr = pCurr->pNext;
+		delete pPrev;
 	}
-};
+	delete pHead;
+}
+
+template <class T>
+void THeadList<T>::InsLast(const T elem)
+{
+	TLink<T> *tmp = new TLink<T>;
+	tmp->val = elem;
+	pLast->pNext = tmp;
+	tmp->pNext = pHead;
+	pLast = tmp;
+}
