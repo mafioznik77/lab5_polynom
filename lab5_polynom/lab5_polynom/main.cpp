@@ -7,11 +7,20 @@
 using namespace std;
 
 int main()
-{
-	TPolinom m1, m2;
-	cin >> m1;
+{/*
+	TPolinom p1;
+	cin >> p1;
 	double d = 1;
-	m1 += d;
-	cout << m1 << endl;
+	p1 += d;
+	cout << p1 << endl;
+	*/
+	TPolinom s2, s3;
+	cin >> s2;
+	cin >> s3;
+	cout << s3 << endl;
+	s3 += s2;
+	cout << s2 << endl;
+	cout << s3 << endl;
+
 	system("pause");
 }
