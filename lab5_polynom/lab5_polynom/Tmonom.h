@@ -56,13 +56,13 @@ istream &operator>>(istream &istr, TMonom &m)
 {
 	int coeff, x, y, z;
 	std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << endl;
-	std::cout << "Coeff:";
+	std::cout << "Коэффицент:";
 	istr >> coeff;
-	std::cout << "Power X:";
+	std::cout << "Степень X:";
 	istr >> x;
-	std::cout << "Power Y:";
+	std::cout << "Степень Y:";
 	istr >> y;
-	std::cout << "Power Z:";
+	std::cout << "Степень Z:";
 	istr >> z;
 	m.PowX = x;
 	m.PowY = y;

@@ -1,12 +1,8 @@
 #pragma once
 #include <iostream>
+#include "TLink.h"
 using namespace std;
 
-template <class T>
-struct TLink {
-	T val;
-	TLink *pNext;
-};
 
 template <class T>
 class THeadList {

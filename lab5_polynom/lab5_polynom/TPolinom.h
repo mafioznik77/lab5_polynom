@@ -126,11 +126,11 @@ istream& operator>>(istream &istr, TPolinom &n)
 {
 	int k;
 	int i = 0;
-	std::cout << "Enter the number of objects: ";
+	std::cout << "Введите колличество переменных: ";
 	istr >> k;
 	while (i<k)
 	{
-		std::cout << "Monom:" << i + 1 << endl;
+		std::cout << "Моном:" << i + 1 << endl;
 		TMonom m1;
 		istr >> m1;
 		n.InsMonom(m1);

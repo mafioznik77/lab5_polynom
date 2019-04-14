@@ -1,4 +1,4 @@
-
+#include "gtest.h"
 #include "../lab5_polynom/Tmonom.h"
 
 TEST(TMonom, compare_equal_monoms_return_true) {
